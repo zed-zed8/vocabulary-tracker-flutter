@@ -38,8 +38,8 @@ class AppDatabase {
     await db.execute('''
       CREATE TABLE users(
         user_id INTEGER PRIMARY KEY, 
-        username TEXT NOT NUll, 
-        email TEXT NOT NUll,
+        username TEXT NOT NUll UNIQUE, 
+        email TEXT NOT NUll UNIQUE,
         password TEXT NOT NUll
       );
       ''');
@@ -61,9 +61,9 @@ class AppDatabase {
 
     // Seed a default mock user for testing your side project
     await db.insert('users', {
-      'username': 'John Doe',
-      'email': 'john@example.com',
-      'password': utf8.encode('password'),
+      'username': 'user',
+      'email': 'user@users.com',
+      'password': base64Encode(utf8.encode('password')),
     });
 
     // Seed a default mock word for testing your side project

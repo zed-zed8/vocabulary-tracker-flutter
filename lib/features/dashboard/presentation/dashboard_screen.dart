@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../vocabulary/presentation/home_screen.dart';
-import '../../vocabulary/presentation/track_screen.dart';
-import '../../vocabulary/presentation/history_screen.dart';
-import '../../auth/presentation/profile_screen.dart';
+import 'package:vocabulary_tracker/features/vocabulary/presentation/home_screen.dart';
+import 'package:vocabulary_tracker/features/vocabulary/presentation/track_screen.dart';
+import 'package:vocabulary_tracker/features/vocabulary/presentation/history_screen.dart';
+import 'package:vocabulary_tracker/features/auth/presentation/profile_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});

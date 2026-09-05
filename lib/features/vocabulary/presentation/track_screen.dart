@@ -6,6 +6,6 @@ class TrackScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container();
+    return Container(child: Text('track word'));
   }
 }

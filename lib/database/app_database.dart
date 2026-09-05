@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -51,7 +49,7 @@ class AppDatabase {
     await db.execute('''
       CREATE TABLE vocabulary(
         vocabulary_id INTEGER PRIMARY KEY, 
-        word TEXT NOT NUll, 
+        word TEXT NOT NUll UNIQUE, 
         description TEXT NOT NUll,
         source TEXT NOT NUll,
         translation TEXT,
@@ -59,22 +57,5 @@ class AppDatabase {
         username TEXT NOT NUll
       );
       ''');
-
-    // Seed a default mock user for testing your side project
-    await db.insert('users', {
-      'username': 'user',
-      'email': 'user@users.com',
-      'password': base64Encode(utf8.encode('password')),
-    });
-
-    // Seed a default mock word for testing your side project
-    await db.insert('vocabulary', {
-      'word': 'synchronous'.toLowerCase(),
-      'description': 'happening or done at the same time or speed:',
-      'source': 'Cambridge Dictionary',
-      'translation': 'Synchronous (atau sinkronus) artinya terjadi pada waktu yang bersamaan atau secara real-time',
-      'date': DateTime.now().toString().split('.').first,
-      'username': '1',
-    });
   }
 }

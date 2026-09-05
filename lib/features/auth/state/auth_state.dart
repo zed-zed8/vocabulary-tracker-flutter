@@ -5,7 +5,7 @@ import 'package:vocabulary_tracker/features/auth/data/authentication.dart';
 import 'package:vocabulary_tracker/features/auth/presentation/auth_screen.dart';
 import 'package:vocabulary_tracker/features/auth/state/auth_state.dart';
 import 'package:vocabulary_tracker/features/dashboard/presentation/dashboard_screen.dart';
-import 'package:vocabulary_tracker/helpers/app_database.dart';
+import 'package:vocabulary_tracker/database/app_database.dart';
 
 class RegisterState extends State<RegisterScreen> {
   final _formGlobalKey = GlobalKey<FormState>();

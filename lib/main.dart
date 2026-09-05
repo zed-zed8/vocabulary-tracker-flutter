@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vocabulary_tracker/features/auth/data/authentication.dart';
 
-import 'helpers/app_database.dart';
+import 'database/app_database.dart';
+import 'extension/string.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
 import 'features/auth/presentation/auth_screen.dart';
 

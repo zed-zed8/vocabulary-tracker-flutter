@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Required for Windows
 
-import 'package:vocabulary_tracker/helpers/app_database.dart';
+import 'package:vocabulary_tracker/database/app_database.dart';
 import 'package:vocabulary_tracker/helpers/preference_manager.dart';
 
 class Authentication {

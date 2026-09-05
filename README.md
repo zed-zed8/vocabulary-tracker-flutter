@@ -21,7 +21,8 @@ samples, guidance on mobile development, and a full API reference.
 
 ```
 lib/
-├── database/
+├── helpers/
+│   ├── preference_manager.darts
 │   └── app_database.dart          # 🗄️ SQLite database initialization & helper
 │
 ├── features/
@@ -36,7 +37,7 @@ lib/
 │   │
 │   ├── vocabulary/             # Everything related to user vocabulary
 │   │   ├── data/            # SQLite db queries for writings
-│   │   │   └── vocabulary_repository.dart
+│   │   │   └── vocabulary.dart
 │   │   ├── presentation/    # Editor/List screens
 │   │   │   ├── home_screen.dart        # 🏠 Home Page (e.g., highlights/stats)
 │   │   │   ├── write_screen.dart       # ✍️ Write Page (the text editor)

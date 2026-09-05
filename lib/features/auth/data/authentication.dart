@@ -11,7 +11,8 @@ class Authentication {
   Authentication(this._db);
 
   /// Register a new user
-  /// returns a string 'success' or an error message
+  ///
+  /// returns a string 'success' on success or an error message
   Future<String> register(
     String username,
     String email,
@@ -37,7 +38,7 @@ class Authentication {
     } on DatabaseException catch (e) {
       // Check if it's a unique constraint failure (SQLite error code 1555 or string match)
       if (e.isUniqueConstraintError()) {
-        return 'Failed: This username or email already exists.';
+        return 'Failed: This username or email already exists';
       } else {
         return 'Database error: ${e.toString()}';
       }
@@ -47,11 +48,12 @@ class Authentication {
   }
 
   /// Authenticate an existing user
-  Future<bool> login(String username, String password) async {
+  /// returns a string 'success' on success or an error message
+  Future<String> login(String username, String password) async {
     final db = await _db.database;
     if (!await isUserExist(username)) {
-      print('User not found.');
-      return false;
+      print('User not found');
+      return 'User not found';
     }
 
     // Encode input and compare with stored data
@@ -65,14 +67,14 @@ class Authentication {
       String storedPassword = results.first['password'] as String;
 
       if (storedPassword == encodedInput) {
-        print('Login successful!');
+        print('success');
         PreferenceManager.setLoginStatus(true, username);
-        return true;
+        return 'success';
       }
     }
 
-    print('Incorrect password.');
-    return false;
+    print('Incorrect password');
+    return 'Incorrect password';
   }
 
   Future<bool> isUserExist(String username) async {
@@ -88,13 +90,18 @@ class Authentication {
   }
 
   /// logout of the current user
-  static Future<void> logout(String username) async {
+  static Future<void> logout() async {
     await PreferenceManager.sessionLogout();
   }
 
   /// check if logged in but from auth
   static Future<bool> isLoggedIn() async {
     return await PreferenceManager.isLoggedIn();
+  }
+
+  /// get username but from auth
+  static Future<String> getUsername() async {
+    return await PreferenceManager.getUsername();
   }
 
   /// get the user profile
@@ -120,6 +127,6 @@ class AuthHelpers {
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@'
       r'((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
     );
-    return !emailRegex.hasMatch(email);
+    return emailRegex.hasMatch(email);
   }
 }

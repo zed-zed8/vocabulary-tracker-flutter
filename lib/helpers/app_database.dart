@@ -27,6 +27,7 @@ class AppDatabase {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
     }
+
     final dbPath = await getApplicationDocumentsDirectory();
     final path = join(dbPath.path, filePath);
 

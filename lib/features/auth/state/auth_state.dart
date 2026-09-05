@@ -75,7 +75,7 @@ class RegisterState extends State<RegisterScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Email Address can\'t be empty';
                       }
-                      if (AuthHelpers.isValidEmail(value)) {
+                      if (!AuthHelpers.isValidEmail(value)) {
                         return 'Invalid Email';
                       }
                       return null;
@@ -136,22 +136,31 @@ class RegisterState extends State<RegisterScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FilledButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formGlobalKey.currentState!.validate()) {
                         _formGlobalKey.currentState!.save();
                         print('form submitted');
 
-                        setState(() async {
-                          if (await Authentication(AppDatabase.instance)
-                                  .register(_username, _email, _password) ==
-                              'success') {
+                        String result = await Authentication(
+                          AppDatabase.instance,
+                        ).register(_username, _email, _password);
+
+                        setState(() {
+                          if (result == 'success') {
                             if (context.mounted) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: ((context) => DashboardScreen()),
+                                  builder: (context) => DashboardScreen(),
                                 ),
                               );
+                            }
+                          } else {
+                            if (context.mounted) {
+                              // Show the backend error message (e.g., 'Email already in use') via SnackBar
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(SnackBar(content: Text(result)));
                             }
                           }
                         });
@@ -195,6 +204,8 @@ class LoginState extends State<LoginScreen> {
   String _password = '';
   bool _obscureText = true;
 
+  List<Object> _error = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -232,6 +243,10 @@ class LoginState extends State<LoginScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Username can\'t be empty';
+                      }
+                      if (_error.contains('User not found')) {
+                        _error.remove('User not found');
+                        return 'User not found';
                       }
                       return null;
                     },
@@ -278,6 +293,10 @@ class LoginState extends State<LoginScreen> {
                       if (value.length < 8) {
                         return 'Password must be atleast 8 characters long';
                       }
+                      if (_error.contains('Incorrect password')) {
+                        _error.remove('Incorrect password');
+                        return 'Incorrect password';
+                      }
                       return null;
                     },
                     onSaved: (value) {
@@ -291,22 +310,33 @@ class LoginState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FilledButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formGlobalKey.currentState!.validate()) {
                         _formGlobalKey.currentState!.save();
                         print('form submitted');
 
-                        setState(() async {
-                          // TODO: login
-                          if (await Authentication(AppDatabase.instance)
-                              .login(_username, _password)) {
+                        String result = await Authentication(
+                          AppDatabase.instance,
+                        ).login(_username, _password);
+
+                        setState(() {
+                          if (result == 'success') {
+                            _error.clear();
                             if (context.mounted) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: ((context) => DashboardScreen()),
+                                  builder: (context) => DashboardScreen(),
                                 ),
                               );
+                            }
+                          } else {
+                            _error.add(result);
+                            if (context.mounted) {
+                              // Show the backend error message (e.g., 'Email already in use') via SnackBar
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(SnackBar(content: Text(result)));
                             }
                           }
                         });

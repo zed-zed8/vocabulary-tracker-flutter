@@ -14,6 +14,12 @@ class PreferenceManager {
     return prefs.getBool('is_logged_in') ?? false;
   }
 
+  /// get username
+  static Future<String> getUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('username') ?? '';
+  }
+
   /// set session flag false, and remove the username
   static Future<void> sessionLogout() async {
     final prefs = await SharedPreferences.getInstance();

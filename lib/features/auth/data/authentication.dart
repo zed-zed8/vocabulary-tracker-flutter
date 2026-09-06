@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Required for Windows
 
-import 'package:vocabulary_tracker/database/app_database.dart';
-import 'package:vocabulary_tracker/helpers/preference_manager.dart';
+import 'package:vocabulary_tracker/helpers.dart';
 
 class Authentication {
   final AppDatabase _db;
@@ -33,7 +32,6 @@ class Authentication {
         values,
         conflictAlgorithm: ConflictAlgorithm.fail,
       );
-      print('User $username registered successfully.');
       return 'success';
     } on DatabaseException catch (e) {
       // Check if it's a unique constraint failure (SQLite error code 1555 or string match)
@@ -52,7 +50,6 @@ class Authentication {
   Future<String> login(String username, String password) async {
     final db = await _db.database;
     if (!await isUserExist(username)) {
-      print('User not found');
       return 'User not found';
     }
 
@@ -67,13 +64,11 @@ class Authentication {
       String storedPassword = results.first['password'] as String;
 
       if (storedPassword == encodedInput) {
-        print('success');
         PreferenceManager.setLoginStatus(true, username);
         return 'success';
       }
     }
 
-    print('Incorrect password');
     return 'Incorrect password';
   }
 
@@ -102,6 +97,20 @@ class Authentication {
   /// get username but from auth
   static Future<String> getUsername() async {
     return await PreferenceManager.getUsername();
+  }
+
+  /// get the user
+  Future<List<Map<String, Object?>>> getUser({String? username}) async {
+    final db = await _db.database;
+
+    if (username == null) {
+      return await db.query('users');
+    }
+    return await db.query(
+      'users',
+      where: 'username = ?',
+      whereArgs: [username],
+    );
   }
 
   /// get the user profile

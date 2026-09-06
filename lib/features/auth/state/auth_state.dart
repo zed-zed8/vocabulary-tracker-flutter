@@ -1,11 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:vocabulary_tracker/features/auth/data/authentication.dart';
 
 import 'package:vocabulary_tracker/features/auth/presentation/auth_screen.dart';
-import 'package:vocabulary_tracker/features/auth/state/auth_state.dart';
 import 'package:vocabulary_tracker/features/dashboard/presentation/dashboard_screen.dart';
-import 'package:vocabulary_tracker/database/app_database.dart';
+
+import 'package:vocabulary_tracker/helpers.dart';
 
 class RegisterState extends State<RegisterScreen> {
   final _formGlobalKey = GlobalKey<FormState>();
@@ -28,7 +27,6 @@ class RegisterState extends State<RegisterScreen> {
           child: Form(
             key: _formGlobalKey,
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // heading
@@ -169,7 +167,7 @@ class RegisterState extends State<RegisterScreen> {
                     },
                     style: FilledButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(19),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
                     child: const Text('Register'),

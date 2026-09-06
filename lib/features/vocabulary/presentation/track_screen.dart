@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TrackScreen extends StatelessWidget {
-  const TrackScreen({super.key});
+import 'package:vocabulary_tracker/features/vocabulary/state/track_state.dart';
+
+class TrackScreen extends StatefulWidget {
+  TrackScreen({super.key, required this.dbUpdateNotifier});
+  final ValueNotifier<int> dbUpdateNotifier;
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container(child: Text('track word'));
-  }
+  State<TrackScreen> createState() => TrackState();
 }

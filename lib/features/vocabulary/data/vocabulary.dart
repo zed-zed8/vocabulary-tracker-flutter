@@ -1,5 +1,4 @@
-import 'package:vocabulary_tracker/database/app_database.dart';
-import 'package:vocabulary_tracker/helpers/preference_manager.dart';
+import 'package:vocabulary_tracker/helpers.dart';
 
 class Vocabulary {
   final AppDatabase _db;

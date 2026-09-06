@@ -26,10 +26,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     // 3. Initialize the pages and pass the shared notifier
     _pages = [
-      const HomeScreen(),
+      HomeScreen(),
       TrackScreen(dbUpdateNotifier: _dbUpdateNotifier),
       HistoryScreen(dbUpdateNotifier: _dbUpdateNotifier),
-      const ProfileScreen(),
+      ProfileScreen(),
     ];
   }
 

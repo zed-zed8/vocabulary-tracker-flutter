@@ -39,7 +39,8 @@ class AppDatabase {
         user_id INTEGER PRIMARY KEY, 
         username TEXT NOT NUll UNIQUE, 
         email TEXT NOT NUll UNIQUE,
-        password TEXT NOT NUll
+        password TEXT NOT NUll,
+        created_at TEXT NOT NUll
       );
       ''');
 

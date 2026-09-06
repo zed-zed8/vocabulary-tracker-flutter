@@ -1,17 +1,21 @@
 extension MyDateTime on DateTime {
-  String readableFormat({bool? day, bool? month, bool? year}) {
+  String readableFormat({
+    bool day = true,
+    bool month = true,
+    bool year = true,
+  }) {
     final List formattedDateTime = [];
     String dateTime = this.toString().split('.')[0];
     String date = dateTime.split(' ')[0];
 
-    if (day == null || day) {
+    if (day) {
       String day = date.split('-')[2];
       if (day[0] == '0') {
         day = day.substring(1);
       }
       formattedDateTime.add(day);
     }
-    if (month == null || month) {
+    if (month) {
       const List<String> Month = [
         'January',
         'February',
@@ -33,7 +37,7 @@ extension MyDateTime on DateTime {
       }
       formattedDateTime.add(Month[int.parse(month) - 1]);
     }
-    if (year == null || year) {
+    if (year) {
       String year = date.split('-')[0];
       formattedDateTime.add(year);
     }

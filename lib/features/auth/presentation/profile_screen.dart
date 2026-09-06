@@ -68,6 +68,12 @@ class _ProfileState extends State<ProfileScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        'Created At: ${DateTime.parse(user['created_at'].toString()).readableFormat()}',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
                       child: Center(child: LogoutButton()),
                     ),
                   ],

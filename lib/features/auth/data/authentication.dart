@@ -24,6 +24,7 @@ class Authentication {
       'username': username,
       'email': email,
       'password': encodedPassword,
+      'created_at': DateTime.now().toString(),
     };
 
     try {
@@ -32,6 +33,7 @@ class Authentication {
         values,
         conflictAlgorithm: ConflictAlgorithm.fail,
       );
+      await PreferenceManager.setLoginStatus(true, username);
       return 'success';
     } on DatabaseException catch (e) {
       // Check if it's a unique constraint failure (SQLite error code 1555 or string match)

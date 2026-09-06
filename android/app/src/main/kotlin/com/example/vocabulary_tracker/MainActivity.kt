@@ -1,4 +1,4 @@
-package com.example.vocabulary_tracker
+package com.zedzed8.vocabularytracker
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -27,6 +27,7 @@ class RegisterState extends State<RegisterScreen> {
           child: Form(
             key: _formGlobalKey,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // heading

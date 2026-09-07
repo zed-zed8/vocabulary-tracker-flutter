@@ -8,9 +8,8 @@ import 'package:vocabulary_tracker/helpers.dart';
 class HistoryState extends State<HistoryBody> {
   @override
   Widget build(BuildContext context) {
-    return
-    // 1. Listen to the shared notifier passed from the Dashboard
-    ValueListenableBuilder<int>(
+    return ValueListenableBuilder<int>(
+      // 1. Listen to the shared notifier passed from the Dashboard
       valueListenable: widget.dbUpdateNotifier,
       builder: (context, updateCount, child) {
         // 2. Every time updateCount changes, this FutureBuilder fires again
@@ -37,73 +36,70 @@ class HistoryState extends State<HistoryBody> {
 
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  dataRowMaxHeight: double.infinity,
-                  headingTextStyle: TextStyle(
-                    fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  columns: [
-                    DataColumn(label: Text('Word')),
-                    DataColumn(label: Text('Description')),
-                    DataColumn(label: Text('Source')),
-                    DataColumn(label: Text('Translation')),
-                    DataColumn(label: Text('Learned At')),
-                    DataColumn(label: Text('Learned By')),
-                  ],
-                  rows: vocabulary.map((word) {
-                    return DataRow(
-                      cells: [
-                        DataCell(
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(word['word']),
-                          ),
+              child: DataTable(
+                dataRowMaxHeight: double.infinity,
+                headingTextStyle: TextStyle(
+                  fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+                columns: [
+                  DataColumn(label: Text('Word')),
+                  DataColumn(label: Text('Description')),
+                  DataColumn(label: Text('Source')),
+                  DataColumn(label: Text('Translation')),
+                  DataColumn(label: Text('Learned At')),
+                  DataColumn(label: Text('Learned By')),
+                ],
+                rows: vocabulary.map((word) {
+                  return DataRow(
+                    cells: [
+                      DataCell(
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(word['word']),
                         ),
-                        DataCell(
-                          SizedBox(
-                            width: 300,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                word['description'],
-                                overflow: TextOverflow.clip,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataCell(
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(word['source']),
-                          ),
-                        ),
-                        DataCell(
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(word['translation']),
-                          ),
-                        ),
-                        DataCell(
-                          Padding(
+                      ),
+                      DataCell(
+                        SizedBox(
+                          width: 300,
+                          child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Text(
-                              DateTime.parse(word['date']).readableFormat(),
+                              word['description'],
+                              overflow: TextOverflow.clip,
                             ),
                           ),
                         ),
-                        DataCell(
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(word['username']),
+                      ),
+                      DataCell(
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(word['source']),
+                        ),
+                      ),
+                      DataCell(
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(word['translation']),
+                        ),
+                      ),
+                      DataCell(
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            DateTime.parse(word['date']).readableFormat(),
                           ),
                         ),
-                      ],
-                    );
-                  }).toList(),
-                ),
+                      ),
+                      DataCell(
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(word['username']),
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList(),
               ),
             );
           },

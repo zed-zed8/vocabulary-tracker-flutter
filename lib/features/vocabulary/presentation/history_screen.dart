@@ -11,29 +11,41 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Center(
-            child: Text(
-              'Your Vocabulary History',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: TextHelpers.responsiveFontSize(
-                  context,
-                  minSize: 22.0,
-                  maxSize: 40.0,
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainer,
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                'Your Vocabulary History',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: TextHelpers.responsiveFontSize(
+                    context,
+                    minSize: 22.0,
+                    maxSize: 40.0,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: HistoryBody(dbUpdateNotifier: dbUpdateNotifier),
-        ),
-      ],
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceBright,
+                ),
+                child: HistoryBody(dbUpdateNotifier: dbUpdateNotifier),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -29,13 +29,13 @@ class Vocabulary {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getVocabulary({int id = 0}) async {
+  Future<List<Map<String, dynamic>>> getVocabulary({int? name}) async {
     final db = await _db.database;
 
-    if (id == 0) {
+    if (name == null) {
       return db.query('vocabulary');
     }
-    return db.query('vocabulary', where: 'id = ?', whereArgs: [id]);
+    return db.query('vocabulary', where: 'name = ?', whereArgs: [name]);
   }
 
   Future<void> updateWord(

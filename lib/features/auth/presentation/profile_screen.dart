@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 import 'package:vocabulary_tracker/features/auth/presentation/auth_screen.dart';
 
@@ -29,58 +28,53 @@ class _ProfileState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainer,
-      ),
-      child: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerLow,
-          ),
-          width: 200,
-          child: FutureBuilder<List<Map<String, Object?>>>(
-            future: _userDataFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) {
-                return Center(child: Text('ERROR: ${snapshot.error}'));
-              }
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text('No tracking found'));
-              }
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+        ),
+        width: 500,
+        child: FutureBuilder<List<Map<String, Object?>>>(
+          future: _userDataFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text('ERROR: ${snapshot.error}'));
+            }
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text('No tracking found'));
+            }
 
-              final List<Map<String, Object?>> vocabulary = snapshot.data!;
+            final List<Map<String, Object?>> vocabulary = snapshot.data!;
 
-              return ListView(
-                shrinkWrap: true,
-                children: [
-                  for (var user in vocabulary) ...[
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text('Username: ${user['username']}'),
+            return ListView(
+              shrinkWrap: true,
+              children: [
+                for (var user in vocabulary) ...[
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text('Username: ${user['username']}'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text('Email: ${user['email']}'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      'Created At: ${DateTime.parse(user['created_at'].toString()).readableFormat()}',
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text('Email: ${user['email']}'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        'Created At: ${DateTime.parse(user['created_at'].toString()).readableFormat()}',
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Center(child: LogoutButton()),
-                    ),
-                  ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Center(child: LogoutButton()),
+                  ),
                 ],
-              );
-            },
-          ),
+              ],
+            );
+          },
         ),
       ),
     );

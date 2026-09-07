@@ -25,8 +25,10 @@ class TrackState extends State<TrackScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Center(
+    return Container(
+      alignment: Alignment.center,
       child: Container(
+        width: 500,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainer,
         ),

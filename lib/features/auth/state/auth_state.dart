@@ -147,11 +147,12 @@ class RegisterState extends State<RegisterScreen> {
                         setState(() {
                           if (result == 'success') {
                             if (context.mounted) {
-                              Navigator.pushReplacement(
+                              Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DashboardScreen(),
                                 ),
+                                (Route<dynamic> route) => false,
                               );
                             }
                           } else {
@@ -322,11 +323,12 @@ class LoginState extends State<LoginScreen> {
                           if (result == 'success') {
                             _error.clear();
                             if (context.mounted) {
-                              Navigator.pushReplacement(
+                              Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DashboardScreen(),
                                 ),
+                                (Route<dynamic> route) => false,
                               );
                             }
                           } else {
@@ -348,7 +350,7 @@ class LoginState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(19),
                       ),
                     ),
-                    child: const Text('Register'),
+                    child: const Text('Login'),
                   ),
                 ),
 

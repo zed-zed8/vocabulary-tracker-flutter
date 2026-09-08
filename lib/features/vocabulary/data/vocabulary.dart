@@ -1,3 +1,4 @@
+import 'package:sqflite/sqflite.dart';
 import 'package:vocabulary_tracker/helpers.dart';
 
 class Vocabulary {
@@ -24,18 +25,25 @@ class Vocabulary {
     try {
       await db.insert('vocabulary', values);
       return 'success';
+    } on DatabaseException catch (e) {
+      // Check if it's a unique constraint failure (SQLite error code 1555 or string match)
+      if (e.isUniqueConstraintError()) {
+        return 'Failed: This word already exists';
+      } else {
+        return 'Database error: ${e.toString()}';
+      }
     } catch (e) {
       return 'An unexpected error occurred: $e';
     }
   }
 
-  Future<List<Map<String, dynamic>>> getVocabulary({int? name}) async {
+  Future<List<Map<String, dynamic>>> getVocabulary({String? username}) async {
     final db = await _db.database;
 
-    if (name == null) {
+    if (username == null) {
       return db.query('vocabulary');
     }
-    return db.query('vocabulary', where: 'name = ?', whereArgs: [name]);
+    return db.query('vocabulary', where: 'username = ?', whereArgs: [username]);
   }
 
   Future<void> updateWord(

@@ -26,13 +26,27 @@ class HistoryState extends State<HistoryBody> {
               return Center(child: Text('ERROR: ${snapshot.error}'));
             }
 
+            final List<Map<String, dynamic>> vocabulary;
+            final bool action;
+
             // 3. Handle empty or null data
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No tracking found'));
+              vocabulary = [
+                {
+                  'word': '',
+                  'description': '',
+                  'source': '',
+                  'translation': '',
+                  'date': '',
+                  'username': '',
+                },
+              ];
+              action = false;
+            } else {
+              // 4. Extract data and build a list widget
+              vocabulary = snapshot.data!;
+              action = true;
             }
-
-            // 4. Extract data and build a list widget
-            final List<Map<String, dynamic>> vocabulary = snapshot.data!;
 
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -49,6 +63,9 @@ class HistoryState extends State<HistoryBody> {
                   DataColumn(label: Text('Translation')),
                   DataColumn(label: Text('Learned At')),
                   DataColumn(label: Text('Learned By')),
+                  DataColumn(
+                    label: Visibility(visible: action, child: Text('Action')),
+                  ),
                 ],
                 rows: vocabulary.map((word) {
                   return DataRow(
@@ -80,14 +97,20 @@ class HistoryState extends State<HistoryBody> {
                       DataCell(
                         Padding(
                           padding: const EdgeInsets.all(4.0),
-                          child: Text(word['translation']),
+                          child: Text(
+                            word['translation'] == ''
+                                ? 'No Translation Added'
+                                : word['translation'],
+                          ),
                         ),
                       ),
                       DataCell(
                         Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Text(
-                            DateTime.parse(word['date']).readableFormat(),
+                            word['date'] == ''
+                                ? ''
+                                : DateTime.parse(word['date']).readableFormat(),
                           ),
                         ),
                       ),
@@ -95,6 +118,30 @@ class HistoryState extends State<HistoryBody> {
                         Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Text(word['username']),
+                        ),
+                      ),
+                      DataCell(
+                        Visibility(
+                          visible: action,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: FilledButton(
+                              onPressed: () async {
+                                Vocabulary(AppDatabase.instance)
+                                    .deleteWord(word['word']);
+                                setState(() {});
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll(
+                                  Colors.red,
+                                ),
+                              ),
+                              child: Text(
+                                'Remove',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
